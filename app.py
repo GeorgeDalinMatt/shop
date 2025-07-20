@@ -59,3 +59,13 @@ def admin():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route("/delete/<int:item_id>", methods=["POST"])
+def delete_item(item_id):
+    conn = sqlite3.connect("shop.db")
+    c = conn.cursor()
+    c.execute("DELETE FROM items WHERE id = ?", (item_id,))
+    conn.commit()
+    conn.close()
+    return redirect("/admin")
+
